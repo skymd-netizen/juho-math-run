@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="750" viewBox="0 0 240 250">
+  <defs><clipPath id="low"><rect x="0" y="0" width="240" height="250"/></clipPath></defs>
+  <!-- the part of the V collar that sits in front of the neck -->
+  <g clip-path="url(#low)" stroke="#23263a" stroke-width="2.4" stroke-linejoin="round">
+    <path d="M182,8 L166,8 L116,80 L122,96 Z" fill="#1e1e24"/>
+    <path d="M166,8 L156,8 L112,70 L116,80 Z" fill="#e0312f"/>
+    <path d="M58,8 L74,8 L124,80 L118,98 Z" fill="#1e1e24"/>
+    <path d="M74,8 L84,8 L128,70 L124,80 Z" fill="#e0312f"/>
+  </g>
+</svg>

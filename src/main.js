@@ -49,6 +49,22 @@ on('btn-back', () => showStep('topic'));
 on('btn-retry', begin);
 on('btn-levels', toMenu);
 mark();
+// 처음 띠로 돌아가기: 실수로 누르지 않도록 두 번 눌러야 한다
+{
+  const b = document.getElementById('btn-reset-belt');
+  const label = b.textContent;
+  let timer = 0;
+  const idle = () => { clearTimeout(timer); b.classList.remove('ask'); b.textContent = label; };
+  b.addEventListener('click', () => {
+    if (!b.classList.contains('ask')) {
+      b.classList.add('ask'); b.textContent = '정말 흰띠로 돌아갈까요? 한 번 더 누르기';
+      timer = setTimeout(idle, 4000);
+      return;
+    }
+    idle(); game.resetBelt();
+    b.textContent = '흰띠로 돌아왔어요!'; timer = setTimeout(idle, 1800);
+  });
+}
 on('btn-pause', () => game.togglePause());
 on('btn-resume', () => game.togglePause());
 on('btn-quit', toMenu);
@@ -56,11 +72,11 @@ on('btn-mute', (e) => { e.currentTarget.textContent = sfx.toggleMute() ? '🔇' 
 
 // 결과 화면에서 Enter·Space로 같은 설정으로 다시 시작
 window.addEventListener('keydown', (e) => {
-  if ((e.code === 'Enter' || e.code === 'Space') && game.state.mode === 'over') begin();
+  if ((e.code === 'Enter' || e.code === 'Space') && game.state.mode === 'over' && !game.state.promo) begin();
 });
 
 // 게이트 숫자(캔버스)에도 같은 글자체가 쓰이도록 미리 불러 둔다
 document.fonts?.load('700 100px Gaegu');
 
 ui.showScreen('start');
-if (import.meta.env.DEV) window.__game = game;
+if (import.meta.env.DEV) { window.__game = game; import('./progress.js').then((m) => { window.__progress = m; }); }

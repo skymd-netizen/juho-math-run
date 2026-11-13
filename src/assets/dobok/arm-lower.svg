@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="252" height="336" viewBox="0 0 84 112">
+  <!-- fist -->
+  <circle cx="42" cy="92" r="16" fill="#cf9068" stroke="#6b3d24" stroke-width="3.4"/>
+  <path d="M33,96 q9,6 18,0" fill="none" stroke="#6b3d24" stroke-width="2.4" stroke-linecap="round"/>
+  <!-- sleeve, wider at the cuff -->
+  <path d="M16,16 C16,2 68,2 68,16 L77,76 Q42,90 7,76 Z" fill="#fbfcff"/>
+  <path d="M16,16 C16,8 24,4 32,4 C26,20 24,60 27,84 Q15,82 7,76 Z" fill="#dbe2f2"/>
+  <path d="M16,16 C16,2 68,2 68,16 L77,76 Q42,90 7,76 Z" fill="none" stroke="#3d4566" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M10,66 Q42,80 74,66" fill="none" stroke="#aab3cc" stroke-width="2.6" stroke-linecap="round"/>
+</svg>

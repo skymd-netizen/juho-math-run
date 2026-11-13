@@ -22,7 +22,9 @@
     </div>
     <div id="progress"><div id="progress-bar"></div><span id="progress-text">1 / 20</span></div>
     </div>
+    <div id="heal-note"></div>
     <div id="toast"></div>
+    <div id="answer-note"></div>
     <div id="feedback"></div>
     <button id="btn-pause" class="round" aria-label="일시정지">⏸</button>
     <button id="btn-mute" class="round" aria-label="소리">🔊</button>
@@ -36,8 +38,8 @@
 
   <div id="screen-start" class="screen">
     <div class="card">
-      <h1><span class="title-top"><img class="face" src="/src/assets/juho-face.png" alt="주호" />주호의</span><br/><span>수학 런닝 어드벤처</span></h1>
-      <p>달리면서 정답 게이트를 통과하자!</p>
+      <h1><span class="title-top"><img class="face" src="/src/assets/jooho_original_photo_head_cutout.png" alt="주호" />주호의</span><br/><span>수학 런닝 어드벤처</span></h1>
+      <div class="growth"></div>
       <ul class="help">
         <li>⬅️ ➡️ 차선 이동 &nbsp; ␣ 점프 &nbsp; ESC 일시정지</li>
         <li>📱 좌우 스와이프 또는 아래 버튼</li>
@@ -48,6 +50,7 @@
         <button class="big pickbtn t-sub" data-topic="sub"><span class="ico">➖</span>빼기 마스터</button>
         <button class="big pickbtn t-mul" data-topic="mul"><span class="ico">✖️</span>구구단 마스터</button>
         <button class="big pickbtn t-mix" data-topic="mix"><span class="ico">👑</span>수학 마스터<small>더하기 · 빼기 · 구구단</small></button>
+        <button id="btn-reset-belt" class="mini">🥋 처음 띠로 돌아가기</button>
       </div>
       <div id="step-pace" class="hidden">
         <p class="pick">② <span id="picked-topic"></span> · 속도를 골라요!</p>
@@ -62,6 +65,7 @@
   <div id="screen-pause" class="screen hidden">
     <div class="card">
       <h2>일시정지</h2>
+      <div class="growth"></div>
       <button id="btn-resume" class="big">계속하기</button>
       <button id="btn-quit" class="big alt">처음으로</button>
     </div>
@@ -73,9 +77,23 @@
       <p id="result-sub" class="pick"></p>
       <div id="result-emoji">🏆</div>
       <table id="result-table"></table>
+      <div class="growth slim"></div>
+      <details id="result-wrongs" class="hidden"></details>
       <button id="btn-retry" class="big">다시 달리기</button>
       <button id="btn-levels" class="big alt">다른 단계 고르기</button>
     </div>
+  </div>
+
+  <div id="screen-promo" class="screen hidden">
+    <div id="promo-fx"></div>
+    <div id="promo-top">
+      <div id="promo-kicker"></div>
+      <i id="promo-belt" class="belt big"></i>
+      <div id="promo-name"></div>
+      <div id="promo-msg"></div>
+      <div id="promo-title"></div>
+    </div>
+    <button id="btn-promo" class="big">확인</button>
   </div>
 
   <script type="module" src="/src/main.js"></script>

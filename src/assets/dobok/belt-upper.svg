@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="750" viewBox="0 0 240 250">
+  <!-- upper half of the belt + knot. Drawn in white so the game can tint it. -->
+  <path d="M41,140 Q120,151 199,140 L198,152 Q120,163 42,152 Z" fill="#ffffff" stroke="#2a2d40" stroke-width="2.6" stroke-linejoin="round"/>
+  <path d="M106,146 Q120,142 134,146 L136,166 Q120,172 104,166 Z" fill="#ffffff" stroke="#2a2d40" stroke-width="2.6" stroke-linejoin="round"/>
+  <path d="M112,150 q8,4 16,0 M112,160 q8,4 16,0" fill="none" stroke="#b9bccb" stroke-width="2" stroke-linecap="round"/>
+</svg>

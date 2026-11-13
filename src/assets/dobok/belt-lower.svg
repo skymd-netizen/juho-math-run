@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="750" viewBox="0 0 240 250">
+  <!-- lower half of the belt (black on a poom belt) -->
+  <path d="M42,152 Q120,163 198,152 L197,164 Q120,175 43,164 Z" fill="#ffffff" stroke="#2a2d40" stroke-width="2.6" stroke-linejoin="round"/>
+</svg>

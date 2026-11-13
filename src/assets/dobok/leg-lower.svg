@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="312" height="384" viewBox="0 0 104 128">
+  <!-- taekwondo shoe -->
+  <path d="M30,98 C30,84 74,84 74,98 L79,112 Q79,123 66,123 L38,123 Q25,123 25,112 Z" fill="#ffffff" stroke="#3d4566" stroke-width="3.6" stroke-linejoin="round"/>
+  <path d="M26,111 Q52,119 78,111 L79,113 Q79,123 66,123 L38,123 Q25,123 25,113 Z" fill="#2b2f45"/>
+  <path d="M41,96 L37,110 M52,94 L52,112 M63,96 L67,110" fill="none" stroke="#e0312f" stroke-width="3.4" stroke-linecap="round"/>
+  <!-- loose trouser leg, wider at the hem -->
+  <path d="M14,14 C14,0 90,0 90,14 L99,84 Q52,99 5,84 Z" fill="#fbfcff"/>
+  <path d="M14,14 C14,6 24,2 34,2 C30,26 30,66 33,94 Q17,91 5,84 Z" fill="#dbe2f2"/>
+  <path d="M14,14 C14,0 90,0 90,14 L99,84 Q52,99 5,84 Z" fill="none" stroke="#3d4566" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M9,74 Q52,89 95,74" fill="none" stroke="#aab3cc" stroke-width="2.6" stroke-linecap="round"/>
+  <path d="M56,10 L58,78" fill="none" stroke="#aab3cc" stroke-width="2.4" stroke-linecap="round"/>
+</svg>

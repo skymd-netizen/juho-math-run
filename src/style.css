@@ -140,3 +140,70 @@ button { font-weight: 700; }
 .card h1 .title-top { color: #fff; font-size: 1em; }
 .face { height: 1.5em; }
 @media (max-height: 700px) { .help { display: none; } }
+
+/* ---- 태권도 띠 · 성장 정보 ---- */
+.belt { display: inline-block; width: 1.5em; height: .55em; border-radius: 3px; border: 2px solid #fff; vertical-align: middle; margin-right: .3em; background: #e9edf5; box-shadow: 0 2px 0 #0004; }
+.b-white { background: #f4f6fb; } .b-yellow { background: #ffd400; } .b-green { background: #2e9e44; }
+.b-blue { background: #1c6fd6; } .b-red { background: #e0312f; } .b-black { background: #1a1a1a; }
+.b-poom { background: linear-gradient(#e0312f 50%, #1a1a1a 50%); }
+#level { background: #3742fa; }
+#hearts .empty { opacity: .55; }
+#hearts.heal { animation: heal .6s ease; }
+@keyframes heal { 30% { transform: scale(1.25); background: #ff4f79; } }
+.growth { background: rgba(20, 24, 70, .55); border: 3px solid #fff8; border-radius: 18px; padding: 8px 12px; margin: 6px 0 10px; font-size: clamp(17px, 4.6vw, 22px); line-height: 1.25; }
+.g-row { display: flex; align-items: center; justify-content: center; gap: .2em; flex-wrap: wrap; }
+.g-row b { font-size: 1.2em; color: #ffe066; margin-right: .5em; }
+.g-bar { position: relative; height: 20px; margin: 6px 0; background: rgba(0, 0, 0, .35); border: 2px solid #fff; border-radius: 10px; overflow: hidden; }
+.g-bar div { height: 100%; background: linear-gradient(90deg, #ffe066, #ff9f1c); transition: width .6s; }
+.g-bar span { position: absolute; inset: 0; font-size: 15px; line-height: 16px; }
+.g-next b { color: #ffe066; }
+.growth.slim .g-row, .growth.slim .g-next { display: none; }
+.growth.slim { background: none; border: 0; padding: 0; margin: 2px 0 6px; }
+
+/* ---- 게임 중 작은 안내 (오답 풀이 · 생명 회복) ---- */
+#answer-note, #heal-note { position: absolute; left: 50%; transform: translateX(-50%); opacity: 0; white-space: nowrap; border-radius: 999px; border: 3px solid #fff; padding: 2px 18px; font-size: clamp(22px, 5.6vw, 34px); pointer-events: none; }
+#answer-note { top: 50%; background: #fff; color: #c0392b; border-color: #ff4757; }
+#heal-note { top: 27%; background: #ff4f79; color: #fff; }
+#answer-note.show { animation: note 2.2s ease forwards; }
+#heal-note.show { animation: note 1.6s ease forwards; }
+@keyframes note { 0% { opacity: 0; transform: translateX(-50%) scale(.6); } 10% { opacity: 1; transform: translateX(-50%) scale(1.08); } 16% { transform: translateX(-50%) scale(1); } 82% { opacity: 1; } 100% { opacity: 0; transform: translateX(-50%) scale(1); } }
+
+/* ---- 결과 화면 ---- */
+.card, .card * { touch-action: pan-y; }
+#screen-result #result-table { font-size: clamp(17px, 4.7vw, 23px); margin: 2px 0 6px; }
+#screen-result #result-table td { padding: 1px 4px; }
+#screen-result #result-emoji { font-size: clamp(34px, 9vw, 52px); }
+#screen-result.cleared #result-emoji { animation: cheer .6s ease-in-out infinite alternate; }
+@keyframes cheer { to { transform: translateY(-8px) rotate(8deg) scale(1.1); } }
+#result-wrongs { text-align: left; background: rgba(20, 24, 70, .55); border-radius: 14px; padding: 6px 12px; margin: 4px 0; font-size: clamp(17px, 4.6vw, 22px); }
+#result-wrongs summary { cursor: pointer; text-align: center; color: #ffe066; }
+#result-wrongs p { font-size: 1em; margin: 6px 0; line-height: 1.2; }
+#result-wrongs small { opacity: .85; }
+
+/* ---- 승급 축하 ---- */
+#screen-promo { flex-direction: column; justify-content: space-between; padding: max(18px, env(safe-area-inset-top)) 16px max(22px, env(safe-area-inset-bottom)); backdrop-filter: none;
+  background: radial-gradient(ellipse at 50% 62%, transparent 0 28%, rgba(20, 24, 80, .82) 75%); text-align: center; }
+#screen-promo.black { background: radial-gradient(ellipse at 50% 62%, rgba(255, 210, 63, .12) 0 26%, rgba(10, 8, 30, .9) 75%); }
+#promo-top { position: relative; animation: promo-in .7s cubic-bezier(.2, 1.6, .4, 1) both; }
+@keyframes promo-in { from { transform: scale(.3); opacity: 0; } }
+#promo-kicker { font-size: clamp(30px, 8vw, 54px); color: #ffe066; text-shadow: 0 4px 0 #1e24a8; }
+#promo-belt.big { width: min(60vw, 300px); height: clamp(26px, 6vw, 40px); border-width: 4px; border-radius: 8px; margin: 8px 0; box-shadow: 0 6px 0 #0005, 0 0 30px #fff8; animation: belt-shine 1.2s ease-in-out infinite alternate; }
+@keyframes belt-shine { to { transform: scale(1.06); box-shadow: 0 6px 0 #0005, 0 0 50px #ffe066; } }
+#promo-name { font-size: clamp(40px, 11vw, 76px); line-height: 1.1; text-shadow: 0 5px 0 #1e24a8; }
+#promo-msg { font-size: clamp(22px, 5.6vw, 34px); margin-top: 4px; text-shadow: 0 2px 0 #1e24a8; }
+#promo-title { font-size: clamp(20px, 5.2vw, 30px); color: #ffe066; margin-top: 4px; text-shadow: 0 2px 0 #1e24a8; }
+.black #promo-kicker, .black #promo-name { color: #ffd23f; text-shadow: 0 5px 0 #000, 0 0 24px #ffd23f; }
+.black #promo-title { font-size: clamp(24px, 6.4vw, 40px); animation: pulse .6s infinite alternate; }
+#btn-promo { position: relative; max-width: 360px; }
+#promo-fx { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.confetti { position: absolute; top: -20px; width: 10px; height: 16px; border-radius: 2px; animation: confetti 3s linear infinite; }
+@keyframes confetti { to { transform: translateY(110vh) rotate(720deg); } }
+.spark { position: absolute; width: 8px; height: 8px; border-radius: 50%; opacity: 0; animation: spark 3.2s ease-out infinite; }
+@keyframes spark { 0% { opacity: 1; transform: translate(0, 0) scale(1); } 35% { opacity: 1; } 45%, 100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(.3); } }
+
+@media (max-width: 520px) { #level { font-size: 19px; } #hearts { font-size: 19px; letter-spacing: 0; } }
+.g-next span { display: inline-block; white-space: nowrap; margin: 0 .25em; }
+
+/* 처음 띠로 돌아가기 (작고 눈에 덜 띄는 버튼) */
+.mini { display: block; margin: 14px auto 0; padding: 6px 14px; font-family: inherit; font-size: 18px; color: #555b8a; background: #ffffffb0; border: 2px solid #c9cdea; border-radius: 14px; cursor: pointer; }
+.mini.ask { color: #fff; background: #ff4757; border-color: #fff; }

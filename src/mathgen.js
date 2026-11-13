@@ -95,5 +95,6 @@ export function generateQuestion(index, total, topic = 'mix') {
     choices,
     correctIndex: choices.indexOf(q.ans),
     level,
+    op, // 'add' | 'sub' | 'mul' (학습 기록용)
   };
 }
