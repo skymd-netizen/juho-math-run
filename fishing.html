@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <title>우진이의 숫자왕 낚시왕 에디션</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@700&display=swap" rel="stylesheet" />
+  <script type="module" crossorigin src="./assets/fishing-Bcs2KXQc.js"></script>
+  <link rel="modulepreload" crossorigin href="./assets/app-EjQwwRd5.js">
+  <link rel="stylesheet" crossorigin href="./assets/app-DQH2wMo7.css">
+  <link rel="stylesheet" crossorigin href="./assets/fishing-FdEGj9qr.css">
+</head>
+<body class="fishing">
+  <canvas id="game"></canvas>
+
+  <div id="hud" class="hidden">
+    <div id="top">
+    <div id="question"><span id="q-text">3 + 4 = ?</span></div>
+    <div id="stats">
+      <div class="pill" id="level"></div>
+      <div class="pill" id="coins">🪙 <b id="coin-n">0</b></div>
+      <div class="pill" id="hearts"></div>
+      <div class="pill" id="combo">🔥 <b id="combo-n">0</b> 콤보</div>
+    </div>
+    <div id="xp"><div id="xp-fill"></div><span id="xp-text"></span></div>
+    <div id="hud-info"></div>
+    <div id="progress"><div id="progress-bar"></div><span id="progress-text">1 / 20</span></div>
+    </div>
+    <div id="heal-note"></div>
+    <div id="toast"></div>
+    <div id="answer-note"></div>
+    <div id="feedback"></div>
+    <div id="catch-card"></div>
+    <div id="levelup-banner"></div>
+    <button id="btn-pause" class="round" aria-label="일시정지">⏸</button>
+    <button id="btn-mute" class="round" aria-label="소리">🔊</button>
+    <div id="controls">
+      <button id="btn-left" class="ctrl">◀</button>
+      <button id="btn-jump" class="ctrl jump">점프</button>
+      <button id="btn-right" class="ctrl">▶</button>
+    </div>
+    <div id="flash"></div>
+  </div>
+
+  <div id="legend-fx" class="hidden"></div>
+
+  <div id="screen-start" class="screen">
+    <div class="card">
+      <h1><span class="title-top"><img class="face" src="./assets/woojin-face-CbW6gWoZ.png" alt="우진이" />우진이의</span><br/><span>숫자왕 낚시왕 에디션</span></h1>
+      <div class="growth"></div>
+      <ul class="help">
+        <li>⬅️ ➡️ 차선 이동 &nbsp; ␣ 점프 &nbsp; ESC 일시정지</li>
+        <li>📱 좌우 스와이프 또는 아래 버튼</li>
+        <li>🐟 5연속 정답마다 물고기 한 마리!</li>
+      </ul>
+      <div id="step-topic">
+        <p class="pick">① 무엇을 연습할까요?</p>
+        <button class="big pickbtn t-add" data-topic="add"><span class="ico">➕</span>더하기 마스터</button>
+        <button class="big pickbtn t-sub" data-topic="sub"><span class="ico">➖</span>빼기 마스터</button>
+        <button class="big pickbtn t-mul" data-topic="mul"><span class="ico">✖️</span>구구단 마스터</button>
+        <button class="big pickbtn t-mix" data-topic="mix"><span class="ico">👑</span>수학 마스터<small>더하기 · 빼기 · 구구단</small></button>
+        <button id="btn-dex" class="big alt dexbtn">📖 물고기 도감</button>
+      </div>
+      <div id="step-pace" class="hidden">
+        <p class="pick">② <span id="picked-topic"></span> · 속도를 골라요!</p>
+        <button class="big pickbtn p-slow" data-pace="slow">🐢 천천히</button>
+        <button class="big pickbtn p-mid" data-pace="mid">🏃 중간</button>
+        <button class="big pickbtn p-fast" data-pace="fast">🚀 빠르게</button>
+        <button id="btn-back" class="big alt">◀ 다시 고르기</button>
+      </div>
+      <a class="theme-link" href="./index.html">🥋 태권도 버전으로 가기</a>
+    </div>
+  </div>
+
+  <div id="screen-pause" class="screen hidden">
+    <div class="card">
+      <h2>일시정지</h2>
+      <div class="growth"></div>
+      <button id="btn-resume" class="big">계속하기</button>
+      <button id="btn-quit" class="big alt">처음으로</button>
+    </div>
+  </div>
+
+  <div id="screen-result" class="screen hidden">
+    <div class="card">
+      <h2 id="result-title">결과</h2>
+      <p id="result-sub" class="pick"></p>
+      <div id="result-emoji">🏆</div>
+      <div id="result-catches" class="hidden"></div>
+      <table id="result-table"></table>
+      <div class="growth slim"></div>
+      <details id="result-wrongs" class="hidden"></details>
+      <button id="btn-retry" class="big">다시 달리기</button>
+      <button id="btn-levels" class="big alt">다른 단계 고르기</button>
+    </div>
+  </div>
+
+  <div id="screen-dex" class="screen hidden">
+    <div class="card dex-card">
+      <h2>📖 물고기 도감 <small id="dex-count"></small></h2>
+      <div id="dex-spots"></div>
+      <div id="dex-grid"></div>
+      <button id="btn-dex-close" class="big alt">◀ 돌아가기</button>
+    </div>
+  </div>
+
+  <div id="screen-promo" class="screen hidden">
+    <div id="promo-fx"></div>
+    <div id="promo-top">
+      <div id="promo-kicker"></div>
+      <i id="promo-belt"></i>
+      <div id="promo-name"></div>
+      <div id="promo-msg"></div>
+      <div id="promo-title"></div>
+    </div>
+    <button id="btn-promo" class="big">확인</button>
+  </div>
+
+</body>
+</html>
