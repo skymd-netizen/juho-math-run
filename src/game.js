@@ -1,11 +1,10 @@
-// 게임 루프: 달리기, 차선 이동, 게이트 판정, 코인/하트, 콤보/왕코인, 결과
+// 공통 게임 루프(테마별 캐릭터·배경·성장 규칙은 theme로 받는다): 달리기, 차선 이동, 게이트 판정, 코인/하트, 콤보/왕코인, 결과
 import * as THREE from 'three';
-import { createWorld, numberTexture, LANE_W, ROAD_W } from './world.js';
-import { createPlayerCharacter } from './characters/index.js';
+import { numberTexture, LANE_W, ROAD_W } from './world.js';
 import { generateQuestion } from './mathgen.js';
 import { sfx } from './audio.js';
-import { ui } from './ui.js';
-import { progress, healStep, HEARTS } from './progress.js';
+import { healStep, HEARTS } from './progress.js';
+import { taekwondoTheme } from './themes/taekwondo.js';
 
 export const CONFIG = {
   totalQuestions: 20,
@@ -34,14 +33,22 @@ export const SPEEDS = {
 const toon = (color) => new THREE.MeshToonMaterial({ color });
 const GATE_COLORS = ['#a55eea', '#3742fa', '#ff9f1c'];
 
-export function createGame(canvas) {
+/**
+ * theme = { progress, ui, createWorld(scene), createCharacter(), syncGrowth(growth, player),
+ *           makeHurdle?(THREE, toon), init?(game),
+ *           hooks?: { onStart, onMenu, onCorrect, onWrong, onClear, update, finish } }
+ * 기본값은 태권도 버전이다.
+ */
+export function createGame(canvas, theme = taekwondoTheme) {
+  const { progress, ui } = theme;
+  const hooks = theme.hooks || {};
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(62, 1, 0.1, 400);
-  const world = createWorld(scene);
+  const world = theme.createWorld(scene);
 
-  const player = createPlayerCharacter();
+  const player = theme.createCharacter();
   scene.add(player.object);
 
   function resize(w = window.innerWidth, h = window.innerHeight) {
@@ -62,12 +69,17 @@ export function createGame(canvas) {
     hitTimer: 0, slowTimer: 0, cheerTimer: 0, coinTimer: 0, shake: 0, endTimer: 0, kingNext: false,
     cleared: false, question: null, topic: 'mix', pace: 'slow',
     earned: 0, runId: 0, settled: false, wrongList: [],
-    promo: null, promoSwap: 0, promoFx: 0, promoK: 0,
+    promo: null, promoSwap: 0, promoFx: 0, promoK: 0, pullTimer: 0, celebrate: 0,
   };
-  player.setBelt(progress.growth().belt.id);
+  theme.syncGrowth(progress.growth(), player);
   const L = () => SPEEDS[S.pace];
   const gates = [], coins = [], hurdles = [], particles = [];
   let finish = null;
+  // 테마 훅에 넘기는 도구 모음
+  const ctx = {
+    THREE, scene, camera, S, CONFIG, ui, progress, sfx, player, LANE_W, ROAD_W,
+    burst: (...a) => burst(...a), addCoins: (n) => addCoins(n), persist: () => persist(), summary: () => summary(),
+  };
 
   // ---------- 공용 지오메트리 ----------
   const postGeo = new THREE.CylinderGeometry(0.12, 0.12, 3.4, 10);
@@ -159,7 +171,7 @@ export function createGame(canvas) {
     coins.push(m);
   }
 
-  function spawnHurdle(lane, z) {
+  function defaultHurdle() {
     const g = new THREE.Group();
     const bar = new THREE.Mesh(new THREE.BoxGeometry(2.0, 0.22, 0.22), toon(0xff4757));
     bar.position.y = 0.65; g.add(bar);
@@ -169,6 +181,11 @@ export function createGame(canvas) {
       const leg = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.8, 0.5), toon(0xffffff));
       leg.position.set(s * 0.95, 0.4, 0); g.add(leg);
     }
+    return g;
+  }
+
+  function spawnHurdle(lane, z) {
+    const g = theme.makeHurdle ? theme.makeHurdle(THREE, toon) : defaultHurdle();
     g.position.set((lane - 1) * LANE_W, 0, z);
     scene.add(g);
     hurdles.push({ group: g, hit: false });
@@ -262,6 +279,7 @@ export function createGame(canvas) {
     } else {
       ui.toast('정답!');
     }
+    hooks.onCorrect?.(ctx, { streak: S.streak });
   }
 
   function onWrong(gate, lane) {
@@ -279,6 +297,7 @@ export function createGame(canvas) {
     burst(S.x, 1.4, -0.5, [0xff4757, 0xffffff, 0x555555], 26, 7);
     ui.toast('틀림!', true);
     ui.answerNote(`괜찮아! ${gate.q.expr} = ${gate.q.answer}`);
+    hooks.onWrong?.(ctx);
   }
 
   function resolveGate(gate) {
@@ -299,18 +318,13 @@ export function createGame(canvas) {
     if (S.settled) return; // 한 판의 결과는 한 번만 반영한다 (중복 승급·중복 지급 방지)
     S.settled = true;
     persist();
-    const total = S.correct + S.wrong;
+    const sum = summary();
+    if (hooks.finish) { hooks.finish(ctx, sum); return; }
     const res = progress.recordRun({
       id: S.runId, cleared: S.cleared, time: S.time, correct: S.correct, wrong: S.wrong,
       earned: S.earned, maxCombo: S.maxCombo, topic: S.topic, pace: S.pace,
     });
-    const result = {
-      cleared: S.cleared, time: S.time, total, correct: S.correct, wrong: S.wrong,
-      accuracy: total ? Math.round((S.correct / total) * 100) : 0,
-      earned: S.earned, coins: S.coins, hearts: S.hearts, maxHearts: CONFIG.maxHearts,
-      maxCombo: S.maxCombo, topicName: TOPICS[S.topic].name, paceName: L().name,
-      growth: res.growth, wrongList: S.wrongList,
-    };
+    const result = { ...sum, growth: res.growth };
     ui.renderGrowth(res.growth);
     if (res.promoted) {
       // 승급! 캐릭터가 기합을 넣고, 잠시 뒤 도복의 띠가 새 색으로 바뀐다
@@ -320,6 +334,18 @@ export function createGame(canvas) {
     } else {
       ui.showResult(result);
     }
+  }
+
+  // 한 판의 공통 결과 (테마와 상관없이 같은 항목)
+  function summary() {
+    const total = S.correct + S.wrong;
+    return {
+      cleared: S.cleared, time: S.time, total, correct: S.correct, wrong: S.wrong,
+      accuracy: total ? Math.round((S.correct / total) * 100) : 0,
+      earned: S.earned, coins: S.coins, hearts: S.hearts, maxHearts: CONFIG.maxHearts,
+      maxCombo: S.maxCombo, topicName: TOPICS[S.topic].name, paceName: L().name,
+      wrongList: S.wrongList, runId: S.runId, topic: S.topic, pace: S.pace,
+    };
   }
 
   // ---------- 조작 ----------
@@ -333,12 +359,11 @@ export function createGame(canvas) {
         mode: 'playing', lane: 1, x: 0, y: 0, vy: 0, airborne: false, speed: 8,
         hearts: progress.startHearts(), coins: progress.data.coins, streak: 0, maxCombo: 0, correct: 0, wrong: 0,
         asked: 0, resolved: 0, time: 0, kingNext: false, hitTimer: 0, slowTimer: 0, cheerTimer: 0,
-        shake: 0, endTimer: 0, cleared: false,
+        shake: 0, endTimer: 0, cleared: false, pullTimer: 0, celebrate: 0,
         earned: 0, runId: S.runId + 1, settled: false, wrongList: [], promo: null, promoSwap: 0,
       });
-      const g = progress.growth();
-      player.setBelt(g.belt.id);
-      ui.renderGrowth(g);
+      hooks.onStart?.(ctx);
+      theme.syncGrowth(progress.growth(), player);
       ui.setCoins(S.coins); ui.setHearts(S.hearts, CONFIG.maxHearts); ui.setCombo(0);
       ui.hideFeedback(); ui.clearToast();
       ui.showScreen('game');
@@ -358,20 +383,19 @@ export function createGame(canvas) {
     toMenu() {
       if (S.mode === 'playing' || S.mode === 'paused') persist();
       clearAll(); S.mode = 'menu'; S.lane = 1; S.kingNext = false; S.hitTimer = 0; S.promo = null;
-      const g = progress.growth();
-      player.setBelt(g.belt.id); ui.renderGrowth(g);
+      hooks.onMenu?.(ctx);
+      theme.syncGrowth(progress.growth(), player);
       ui.showScreen('start');
     },
     /** 처음 띠로 돌아가기 (메뉴 화면에서만) */
     resetBelt() {
       if (S.mode !== 'menu') return;
-      const g = progress.resetBelt();
-      player.setBelt(g.belt.id); ui.renderGrowth(g);
+      theme.syncGrowth(progress.resetBelt(), player);
     },
-    player, resize,
+    player, resize, ctx, theme,
   };
   window.addEventListener('pagehide', () => { if (S.mode === 'playing' || S.mode === 'paused') persist(); });
-  ui.renderGrowth(progress.growth());
+  theme.syncGrowth(progress.growth(), player);
 
   // ---------- 업데이트 ----------
   function update(dt) {
@@ -417,6 +441,8 @@ export function createGame(canvas) {
     S.slowTimer = Math.max(0, S.slowTimer - dt);
     S.cheerTimer = Math.max(0, S.cheerTimer - dt);
     S.coinTimer = Math.max(0, S.coinTimer - dt);
+    S.celebrate = Math.max(0, S.celebrate - dt);
+    S.pullTimer = Math.max(0, S.pullTimer - dt);
     S.shake = Math.max(0, S.shake - dt);
 
     // 플레이어 이동
@@ -434,11 +460,12 @@ export function createGame(canvas) {
       cheerTimer: S.cheerTimer, coinTimer: S.coinTimer,
       idle: S.mode === 'menu' || (S.mode === 'over' && !S.cleared),
       victory: (S.mode === 'over' || S.mode === 'ending') && S.cleared,
-      promote: !!S.promo,
+      promote: !!S.promo || S.celebrate > 0, pull: S.pullTimer > 0,
       lean: THREE.MathUtils.clamp((S.x - prevX) / Math.max(dt, 0.001) / 10, -1, 1),
     });
 
     world.update(dz, dt);
+    hooks.update?.(dt, ctx);
 
     // 게이트
     for (let i = gates.length - 1; i >= 0; i--) {
@@ -493,6 +520,7 @@ export function createGame(canvas) {
         S.mode = 'ending'; S.cleared = true; S.endTimer = 1.6;
         sfx.win(); ui.toast('🎉 도착!'); ui.flash('gold');
         burst(S.x, 2.5, -2, [0xff4757, 0xffd23f, 0x2ed573, 0x1e90ff, 0xa55eea], 100, 12);
+        hooks.onClear?.(ctx);
       }
     }
 

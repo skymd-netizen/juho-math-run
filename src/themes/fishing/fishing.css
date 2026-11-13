@@ -1,0 +1,115 @@
+/* 낚시왕 에디션 화면 꾸미기 (공통 style.css 위에 덧입힌다) */
+body.fishing, body.fishing html { background: #8fd8ff; }
+.fishing .card { background: linear-gradient(#3cbad9, #1f6fb2); box-shadow: 0 10px 0 #124a80, 0 20px 40px #0006; }
+.fishing .card h1, .fishing .card h2 { text-shadow: 0 4px 0 #124a80; }
+.fishing .card h2 { white-space: normal; }
+.fishing .card h1 span { color: #fff3a0; }
+.fishing .title-top { font-size: 1em; }
+.fishing .big.alt { background: linear-gradient(#e0f7ff, #a5dcf5); color: #0e4d78; box-shadow: 0 6px 0 #5aa6c8; }
+.fishing .pickbtn.last { outline-color: #fff3a0; }
+.fishing #level { background: #0e6aa8; }
+.fishing .growth { background: rgba(8, 50, 90, .5); }
+.fishing .g-bar div { background: linear-gradient(90deg, #7affd9, #3fd0ff); }
+.fishing .g-row b, .fishing .g-next b, .fishing .pill b { color: #fff3a0; }
+.fishing #screen-pause, .fishing #screen-result, .fishing #screen-start, .fishing #screen-dex { background: rgba(8, 40, 90, .5); }
+.fishing #result-wrongs { background: rgba(8, 50, 90, .5); }
+.fishing #result-wrongs summary { color: #fff3a0; }
+.fishing #result-table td:last-child { color: #fff3a0; }
+.fishing #step-topic .dexbtn { grid-column: 1 / -1; min-height: 0; font-size: clamp(20px, 5.4vw, 28px); padding: 8px; }
+
+/* ---- HUD: 경험치 막대와 최고어 ---- */
+#xp { position: relative; width: min(72vw, 420px); height: 24px; background: rgba(8, 40, 90, .75); border: 2px solid #fff; border-radius: 12px; overflow: hidden; }
+#xp-fill { height: 100%; width: 0; background: linear-gradient(90deg, #7affd9, #3fd0ff); transition: width .4s; }
+#xp-text { position: absolute; inset: 0; text-align: center; font-size: 17px; line-height: 21px; text-shadow: 0 1px 0 #0006; }
+#hud-info { font-size: clamp(17px, 4.2vw, 22px); background: rgba(8, 40, 90, .7); border-radius: 999px; padding: 0 14px; line-height: 1.35; white-space: nowrap; max-width: calc(100vw - 16px); overflow: hidden; text-overflow: ellipsis; }
+.fishing #top { gap: 6px; }
+.fishing #progress { height: 18px; }
+.fishing #progress-text { font-size: 15px; line-height: 14px; }
+
+/* ---- 희귀도 색 ---- */
+.rar { display: inline-block; border-radius: 999px; padding: 0 10px; font-size: .75em; line-height: 1.35; color: #fff; background: #9aa7b8; border: 2px solid #fff; vertical-align: middle; }
+.rar.r-rare { background: #2b8fe6; } .rar.r-epic { background: #a24bf0; } .rar.r-legend { background: linear-gradient(#ffd54a, #ff9100); color: #5a2d00; }
+
+/* ---- 물고기를 잡았을 때 뜨는 카드 ---- */
+#catch-card { position: absolute; left: 8px; top: 236px; width: min(46vw, 230px); padding: 8px 10px 10px; border-radius: 20px; border: 4px solid #fff;
+  background: linear-gradient(#2f9fd6ee, #1d5fa5ee); color: #fff; text-align: center; opacity: 0; transform: translateX(-120%); pointer-events: none; box-shadow: 0 6px 0 #0a3a66, 0 10px 20px #0005; line-height: 1.2; }
+#catch-card.show { animation: cc 3.6s ease forwards; }
+@keyframes cc { 0% { opacity: 0; transform: translateX(-120%); } 10% { opacity: 1; transform: translateX(0) scale(1.05); } 16% { transform: translateX(0) scale(1); } 88% { opacity: 1; transform: translateX(0); } 100% { opacity: 0; transform: translateX(-120%); } }
+#catch-card.r-rare { border-color: #8fd0ff; } #catch-card.r-epic { border-color: #d7a6ff; background: linear-gradient(#7b3fc9ee, #4a2a8fee); }
+#catch-card.r-legend { border-color: #ffd54a; background: linear-gradient(#e08a00ee, #a85a00ee); }
+.cc-top { display: flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap; }
+.cc-name { font-size: clamp(22px, 5.5vw, 28px); color: #fff3a0; }
+.cc-fish { width: 78%; margin: 2px auto; filter: drop-shadow(0 3px 0 #0005); }
+.cc-fish svg, .lg-fish svg, .fish-img svg { display: block; width: 100%; height: auto; }
+.cc-stats { font-size: clamp(18px, 4.6vw, 22px); }
+.cc-stats b { color: #fff3a0; }
+.cmp { display: flex; align-items: flex-end; justify-content: center; gap: 6px; min-height: 22px; margin: 2px 0 0; }
+.cmp .me { line-height: 1; filter: grayscale(.2); }
+.cmp .fb { display: block; max-width: 160px; }
+.cmp-note { font-size: 13px; opacity: .8; }
+.cc-reward { font-size: clamp(17px, 4.4vw, 22px); margin-top: 2px; white-space: nowrap; }
+.cc-tags { font-size: clamp(15px, 4vw, 18px); color: #fff3a0; margin-top: 2px; }
+
+/* ---- 레벨업 배너 ---- */
+#levelup-banner { position: absolute; left: 50%; top: 42%; width: min(92vw, 520px); transform: translate(-50%, -50%) scale(.6); text-align: center; opacity: 0; pointer-events: none;
+  background: radial-gradient(#fff6c8f0, #ffd54af0); color: #5a2d00; border: 5px solid #fff; border-radius: 26px; padding: 8px 14px; box-shadow: 0 8px 0 #c76b00, 0 0 40px #ffe066; }
+#levelup-banner.show { animation: lb 3.8s ease forwards; }
+@keyframes lb { 0% { opacity: 0; transform: translate(-50%, -50%) scale(.4); } 10% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); } 16% { transform: translate(-50%, -50%) scale(1); } 85% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%, -80%) scale(1); } }
+.lb-title { font-size: clamp(30px, 8vw, 46px); color: #e0312f; text-shadow: 0 2px 0 #fff; }
+.lb-name { font-size: clamp(28px, 7.4vw, 42px); }
+.lb-un { font-size: clamp(18px, 4.8vw, 26px); color: #0e5a8a; }
+
+/* ---- 전설의 물고기 전체 화면 연출 ---- */
+#legend-fx { position: fixed; inset: 0; z-index: 40; display: flex; align-items: center; justify-content: center; overflow: hidden; cursor: pointer;
+  background: radial-gradient(circle at 50% 46%, #fff6b8 0, #ffcf3a 30%, #c76b00 70%, #4a2400 100%); }
+#legend-fx.go { animation: lg-in .5s ease-out both; }
+@keyframes lg-in { from { opacity: 0; transform: scale(1.3); filter: brightness(3); } to { opacity: 1; transform: none; filter: none; } }
+.lg-rays { position: absolute; width: 190vmax; height: 190vmax; left: 50%; top: 46%; margin: -95vmax 0 0 -95vmax; opacity: .55; animation: spin 14s linear infinite;
+  background: repeating-conic-gradient(from 0deg, #fff8 0 6deg, transparent 6deg 18deg); }
+@keyframes spin { to { transform: rotate(360deg); } }
+.lg-body { position: relative; text-align: center; padding: 0 14px; }
+.lg-kicker { font-size: clamp(30px, 8.4vw, 56px); color: #fff; text-shadow: 0 0 10px #ff9100, 3px 3px 0 #a85a00, -3px 3px 0 #a85a00, 0 6px 0 #7a3d00; animation: pulse .5s infinite alternate; }
+.lg-fish { width: min(80vw, 480px); margin: 6px auto; filter: drop-shadow(0 8px 0 #0005) drop-shadow(0 0 24px #fff6b8); animation: lg-bob 1.2s ease-in-out infinite alternate; }
+@keyframes lg-bob { from { transform: translateY(-6px) rotate(-3deg); } to { transform: translateY(6px) rotate(3deg); } }
+.lg-name { font-size: clamp(34px, 9vw, 60px); color: #fff; text-shadow: 0 4px 0 #7a3d00; }
+.lg-stats, .lg-reward { font-size: clamp(24px, 6.4vw, 36px); color: #fff; text-shadow: 0 2px 0 #7a3d00; }
+.lg-reg { margin-top: 6px; font-size: clamp(20px, 5.4vw, 30px); color: #5a2d00; background: #fff6c8; border-radius: 999px; display: inline-block; padding: 2px 18px; }
+
+/* ---- 레벨업 축하 화면(판이 끝난 뒤) ---- */
+.lvbadge { display: inline-block; font-style: normal; font-size: clamp(44px, 12vw, 80px); color: #5a2d00; background: radial-gradient(#fff6c8, #ffd54a); border: 5px solid #fff; border-radius: 50%; width: 1.9em; height: 1.9em; line-height: 1.9em; margin: 8px 0; box-shadow: 0 6px 0 #c76b00, 0 0 40px #ffe066; animation: belt-shine 1.2s ease-in-out infinite alternate; }
+.fishing #screen-promo { background: radial-gradient(ellipse at 50% 62%, rgba(8, 40, 90, .3) 0 28%, rgba(8, 40, 90, .85) 75%); }
+.fishing #promo-kicker { text-shadow: 0 4px 0 #124a80; }
+.fishing #promo-name { text-shadow: 0 5px 0 #124a80; }
+.fishing #promo-msg { line-height: 1.3; text-shadow: 0 0 6px #0a3a66, 0 2px 0 #0a3a66, 0 0 14px #0a3a66; }
+.fishing #promo-title { text-shadow: 0 0 6px #0a3a66, 0 2px 0 #0a3a66; }
+
+/* ---- 결과 화면: 오늘 잡은 물고기 ---- */
+#result-catches { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin: 2px 0 6px; max-height: 24vh; overflow-y: auto; }
+#result-catches .chip { display: flex; align-items: center; gap: 4px; background: rgba(8, 50, 90, .55); border: 3px solid #9aa7b8; border-radius: 14px; padding: 2px 8px 2px 4px; font-size: clamp(16px, 4.2vw, 20px); text-align: left; line-height: 1.1; }
+#result-catches .chip.r-rare { border-color: #3fa9ff; } #result-catches .chip.r-epic { border-color: #b96bff; } #result-catches .chip.r-legend { border-color: #ffc400; background: rgba(168, 90, 0, .55); }
+#result-catches .chip .fish-img { width: 54px; flex: none; }
+#result-catches .chip small { display: block; font-size: .8em; opacity: .9; }
+
+/* ---- 물고기 도감 ---- */
+.dex-card { max-width: 680px; }
+.dex-card h2 small { font-size: .7em; color: #fff3a0; margin-left: 6px; }
+.dex-card h2 { white-space: normal; }
+#dex-spots { display: flex; flex-wrap: wrap; gap: 4px 8px; justify-content: center; font-size: clamp(14px, 3.6vw, 17px); opacity: .55; margin-bottom: 6px; }
+#dex-spots .on { opacity: 1; color: #fff3a0; }
+#dex-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(135px, 1fr)); gap: 8px; margin-bottom: 4px; }
+.dex-cell { background: rgba(8, 50, 90, .5); border: 3px solid #9aa7b8; border-radius: 14px; padding: 4px 4px 6px; line-height: 1.15; font-size: clamp(15px, 3.8vw, 18px); }
+.dex-cell.r-rare { border-color: #3fa9ff; } .dex-cell.r-epic { border-color: #b96bff; } .dex-cell.r-legend { border-color: #ffc400; box-shadow: 0 0 14px #ffc40088; }
+.dex-cell b { display: block; font-size: 1.15em; color: #fff3a0; }
+.dex-cell small { display: block; font-size: .86em; opacity: .92; white-space: nowrap; }
+.dex-cell .rar { margin: 1px 0; }
+.dex-cell .fish-img { display: block; width: 88%; margin: 0 auto 2px; }
+.fish-img.sil svg { filter: brightness(0) opacity(.4); }
+.dex-cell.unknown b { color: #c9d6e6; }
+
+@media (max-width: 520px) {
+  #xp { height: 22px; } #xp-text { font-size: 15px; line-height: 19px; }
+  #catch-card { top: 256px; width: 44vw; }
+}
+
+/* 제목 옆 우진이 얼굴은 조금 더 크게 */
+.fishing .face { height: 2.3em; margin-right: .1em; filter: drop-shadow(0 3px 0 #124a80); }

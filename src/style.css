@@ -207,3 +207,7 @@ button { font-weight: 700; }
 /* 처음 띠로 돌아가기 (작고 눈에 덜 띄는 버튼) */
 .mini { display: block; margin: 14px auto 0; padding: 6px 14px; font-family: inherit; font-size: 18px; color: #555b8a; background: #ffffffb0; border: 2px solid #c9cdea; border-radius: 14px; cursor: pointer; }
 .mini.ask { color: #fff; background: #ff4757; border-color: #fff; }
+
+/* 버전(테마) 바꾸기 링크 */
+.theme-link { display: block; margin: 12px auto 0; padding: 4px 12px; font-size: clamp(18px, 4.8vw, 22px); color: #fff; text-decoration: none; background: #ffffff26; border: 2px solid #ffffff80; border-radius: 14px; text-align: center; }
+.theme-link:active { transform: translateY(2px); }
