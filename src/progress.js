@@ -1,6 +1,8 @@
 // 성장 기록: 태권도 띠 승급, 코인 지갑, 생명, 학습 기록을 localStorage에 저장한다.
 // 게임 로직(game.js)과 화면(ui.js)은 이 모듈의 함수만 사용한다.
 
+import { TROPHY_COUNT, trophyStatus } from './trophies.js';
+
 const KEY = 'juho-save';
 
 /** 누적 스테이지 성공 횟수(need)에 따른 띠와 캐릭터 레벨 */
@@ -49,7 +51,9 @@ export function healStep(hearts, coins) {
 
 const blank = () => ({
   v: 1,
-  clears: 0,            // 누적 스테이지 성공 횟수
+  clears: 0,            // 누적 스테이지 성공 횟수 (띠 승급 기준. '처음 띠로 돌아가기'로 0이 될 수 있다)
+  trophyClears: 0,      // 평생 누적 성공 횟수 (트로피 수집 기준. 띠를 되돌려도 줄지 않는다)
+  trophyDates: {},      // 트로피 번호 → 획득 날짜(ISO). 날짜 기록이 없던 예전 트로피는 ''
   belt: 'white', level: 1, title: '',
   coins: 0, hearts: HEARTS.base,
   bestCombo: 0,
@@ -71,6 +75,11 @@ function load() {
   try { raw = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch { raw = null; }
   if (raw && typeof raw === 'object') {
     d.clears = int(raw.clears, 0, 1e6, 0);
+    // 예전 저장 기록(트로피 항목 없음)과 호환: 이미 클리어한 만큼 트로피로 인정하고 지우지 않는다
+    d.trophyClears = Math.max(int(raw.trophyClears, 0, 1e6, 0), d.clears);
+    if (raw.trophyDates && typeof raw.trophyDates === 'object') {
+      for (let n = 1; n <= TROPHY_COUNT; n++) if (typeof raw.trophyDates[n] === 'string') d.trophyDates[n] = raw.trophyDates[n];
+    }
     d.coins = int(raw.coins, 0, 1e9, 0);
     d.hearts = int(raw.hearts, 0, HEARTS.max, HEARTS.base);
     d.bestCombo = int(raw.bestCombo, 0, 1e6, 0);
@@ -82,6 +91,7 @@ function load() {
     if (Array.isArray(raw.plays)) d.plays = raw.plays.slice(-30);
     if (Array.isArray(raw.wrongs)) d.wrongs = raw.wrongs.slice(-40);
   }
+  for (let n = 1; n <= Math.min(TROPHY_COUNT, d.trophyClears); n++) if (!(n in d.trophyDates)) d.trophyDates[n] = '';
   sync(d);
   return d;
 }
@@ -97,7 +107,8 @@ let lastRunId = null;
 
 export const progress = {
   get data() { return data; },
-  growth() { return growthFor(data.clears); },
+  growth() { return { ...growthFor(data.clears), trophy: trophyStatus(data.trophyClears) }; },
+  trophyDate(n) { return data.trophyDates[n]; },
   save() { try { localStorage.setItem(KEY, JSON.stringify(data)); } catch { /* 저장 불가 환경 */ } },
   reload() { data = load(); lastRunId = null; return data; },
 
@@ -129,13 +140,20 @@ export const progress = {
    * 스테이지를 클리어한 경우에만 누적 성공 횟수가 1 늘어난다.
    */
   recordRun(run) {
-    if (run.id === lastRunId) return { promoted: null, growth: this.growth(), duplicate: true };
+    if (run.id === lastRunId) return { promoted: null, trophy: null, growth: this.growth(), duplicate: true };
     lastRunId = run.id;
     const before = beltFor(data.clears);
     data.totals.plays++;
     data.totals.time += Math.round(run.time);
     data.bestCombo = Math.max(data.bestCombo, run.maxCombo);
-    if (run.cleared) data.clears++;
+    let trophy = null;
+    if (run.cleared) {
+      data.clears++;
+      data.trophyClears++;
+      // 새 트로피: 번호당 한 번만 지급하고 날짜를 남긴다
+      const n = data.trophyClears;
+      if (n <= TROPHY_COUNT && !data.trophyDates[n]) { data.trophyDates[n] = new Date().toISOString(); trophy = n; }
+    }
     sync(data);
     data.plays.push({
       t: Date.now(), topic: run.topic, pace: run.pace, cleared: !!run.cleared, time: Math.round(run.time),
@@ -144,6 +162,6 @@ export const progress = {
     if (data.plays.length > 30) data.plays.shift();
     this.save();
     const after = beltFor(data.clears);
-    return { promoted: after !== before ? after : null, growth: this.growth(), duplicate: false };
+    return { promoted: after !== before ? after : null, trophy, growth: this.growth(), duplicate: false };
   },
 };

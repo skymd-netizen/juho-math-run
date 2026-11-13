@@ -15,6 +15,8 @@ export const taekwondoTheme = {
 
   /** 시작 화면의 태권도 전용 버튼: 처음 띠로 돌아가기 (실수 방지를 위해 두 번 눌러야 한다) */
   init(game) {
+    document.getElementById('btn-trophies')?.addEventListener('click', () => ui.openTrophies());
+    document.getElementById('btn-trophy-close')?.addEventListener('click', () => ui.showScreen('start'));
     const b = document.getElementById('btn-reset-belt');
     if (!b) return;
     const label = b.textContent;

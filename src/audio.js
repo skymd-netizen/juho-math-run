@@ -43,6 +43,21 @@ export const sfx = {
   lose() { [392, 330, 262, 196].forEach((f, i) => tone(f, i * 0.2, 0.35, 'triangle', 0.2)); },
   heal() { [659, 880, 1319].forEach((f, i) => tone(f, i * 0.09, 0.22, 'sine', 0.2)); },
   promote() { [392, 523, 659, 784, 1047, 1319, 1568].forEach((f, i) => tone(f, i * 0.11, 0.4, 'triangle', 0.22)); [262, 330, 392].forEach((f) => tone(f, 0.8, 0.9, 'sine', 0.12)); },
+  /** 트로피 효과음: 등급이 높을수록 음이 높고 길고 화려하다. grand는 100번째 특별 팡파르 */
+  trophy(tierIdx = 0, grand = false) {
+    const root = 330 * Math.pow(2, tierIdx / 10);
+    const steps = [0, 4, 7, 12, 16, 19, 24, 28];
+    const count = Math.min(steps.length, 3 + tierIdx);
+    steps.slice(0, count).forEach((s, i) => tone(root * Math.pow(2, s / 12), i * 0.09, 0.34, 'triangle', 0.2));
+    tone(root / 2, 0, 0.9, 'sine', 0.14);
+    if (tierIdx >= 3) [0, 1, 2].forEach((i) => tone(root * 4 * (1 + i * 0.25), 0.5 + i * 0.1, 0.25, 'sine', 0.08)); // 반짝이는 소리
+    if (tierIdx >= 6) tone(root, 0.45, 0.6, 'sawtooth', 0.07, root * 2);
+    if (grand) {
+      [523, 659, 784, 1047, 784, 1047, 1319, 1568, 2093].forEach((f, i) => tone(f, 0.9 + i * 0.13, 0.4, 'triangle', 0.22));
+      [262, 330, 392, 523].forEach((f) => tone(f, 0.9, 1.6, 'sine', 0.14));
+      [0, 1, 2, 3, 4, 5].forEach((i) => tone(1400 + i * 260, 2.2 + i * 0.18, 0.25, 'square', 0.06, 300));
+    }
+  },
   firework() { tone(1400 + Math.random() * 600, 0, 0.25, 'square', 0.05, 300); },
   toggleMute() { muted = !muted; return muted; },
   get muted() { return muted; },

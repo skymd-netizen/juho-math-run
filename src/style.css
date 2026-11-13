@@ -211,3 +211,95 @@ button { font-weight: 700; }
 /* 버전(테마) 바꾸기 링크 */
 .theme-link { display: block; margin: 12px auto 0; padding: 4px 12px; font-size: clamp(18px, 4.8vw, 22px); color: #fff; text-decoration: none; background: #ffffff26; border: 2px solid #ffffff80; border-radius: 14px; text-align: center; }
 .theme-link:active { transform: translateY(2px); }
+
+/* ================= 트로피 도감 (10×10) ================= */
+.trophybtn { margin-top: 12px; font-size: clamp(20px, 5.4vw, 26px); padding: 8px; }
+#step-topic .trophybtn { grid-column: 1 / -1; min-height: 0; }
+.trophy-card { max-width: 640px; padding: clamp(10px, 3vw, 18px); }
+.trophy-card h2 { white-space: normal; margin-bottom: 4px; }
+#tr-sum { background: rgba(20, 24, 70, .55); border: 3px solid #fff8; border-radius: 16px; padding: 6px 10px; font-size: clamp(16px, 4.2vw, 21px); line-height: 1.25; }
+.tr-top { display: flex; justify-content: space-between; align-items: baseline; font-size: 1.15em; }
+.tr-top b { color: #ffe066; } .tr-line b { color: #ffe066; }
+#tr-detail { display: flex; align-items: center; gap: 10px; text-align: left; margin: 6px 0; padding: 6px 10px; background: rgba(20, 24, 70, .55); border: 3px solid var(--c, #fff8); border-radius: 16px; min-height: 96px; }
+.tr-big { width: 70px; flex: none; }
+.tr-big svg { display: block; width: 100%; }
+#tr-detail.off .tr-big svg { filter: brightness(0) opacity(.45); }
+.tr-info b { display: block; font-size: clamp(20px, 5.4vw, 26px); color: #ffe066; line-height: 1.15; }
+.tr-info small { display: block; font-size: clamp(14px, 3.8vw, 18px); line-height: 1.25; opacity: .95; }
+#tr-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 3px; margin: 6px 0; }
+.tr-cell { position: relative; padding: 2px 1px 1px; background: rgba(255, 255, 255, .14); border: 2px solid var(--c); border-radius: 7px; cursor: pointer; font-family: inherit; color: #fff; line-height: 1; }
+.tr-cell svg { display: block; width: 100%; }
+.tr-cell i { display: block; font-style: normal; font-size: clamp(9px, 2.5vw, 13px); text-shadow: 0 1px 0 #0008; }
+.tr-cell.off { background: rgba(0, 0, 0, .25); border-color: #ffffff40; }
+.tr-cell.off svg { filter: brightness(0) opacity(.42); }
+.tr-cell.off i { opacity: .6; }
+.tr-cell.off::after { content: "🔒"; position: absolute; right: 0; top: 0; font-size: clamp(8px, 2.3vw, 12px); }
+.tr-cell.sel { outline: 3px solid #ffe066; outline-offset: 1px; z-index: 1; }
+.tr-cell:active { transform: translateY(1px); }
+#tr-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px 8px; font-size: clamp(11px, 3vw, 14px); opacity: .95; margin-bottom: 4px; }
+#tr-legend span::before { content: ""; display: inline-block; width: .7em; height: .7em; border-radius: 50%; background: var(--c); border: 1px solid #fff; margin-right: 3px; vertical-align: baseline; }
+.g-trophy b { color: #ffe066; }
+
+/* ================= 트로피 획득 팝업 (등급별 연출) ================= */
+#screen-trophy-pop { flex-direction: column; justify-content: space-between; text-align: center; backdrop-filter: none; overflow: hidden;
+  padding: max(18px, env(safe-area-inset-top)) 16px max(22px, env(safe-area-inset-bottom));
+  background: radial-gradient(ellipse at 50% 42%, color-mix(in srgb, var(--tp, #ffd23f) 30%, rgba(14, 18, 60, .86)) 0 24%, rgba(14, 18, 60, .93) 80%); }
+#screen-trophy-pop::before { content: ""; position: absolute; left: 50%; top: 40%; width: 170vmax; height: 170vmax; margin: -85vmax 0 0 -85vmax; opacity: 0; pointer-events: none;
+  background: repeating-conic-gradient(from 0deg, color-mix(in srgb, var(--tp, #fff) 55%, transparent) 0 6deg, transparent 6deg 18deg); animation: spin 16s linear infinite; }
+#screen-trophy-pop.tier-gold::before, #screen-trophy-pop.tier-legend::before, #screen-trophy-pop.tier-master::before, #screen-trophy-pop.grand::before { opacity: .26; }
+#screen-trophy-pop.tier-silver::before, #screen-trophy-pop.tier-platinum::before { opacity: .12; }
+@keyframes spin { to { transform: rotate(360deg); } }
+#tp-fx { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+#tp-body { position: relative; animation: promo-in .7s cubic-bezier(.2, 1.6, .4, 1) both; }
+#tp-kicker { font-size: clamp(28px, 7.6vw, 48px); color: #ffe066; text-shadow: 0 4px 0 #1e24a8, 0 0 18px var(--tp); }
+#tp-cup { width: min(52vw, 250px, 34vh); margin: 4px auto; filter: drop-shadow(0 8px 0 #0005) drop-shadow(0 0 22px var(--tp)); }
+#tp-cup svg { display: block; width: 100%; }
+#tp-tier { font-size: clamp(20px, 5.4vw, 30px); color: var(--tp); text-shadow: 0 2px 0 #000a, 0 0 8px #000a; }
+#tp-cond, #tp-next, #tp-count { text-shadow: 0 2px 0 #000a, 0 0 8px #000a; }
+#tp-name { font-size: clamp(34px, 9.4vw, 62px); line-height: 1.1; text-shadow: 0 5px 0 #1e24a8, 0 0 20px var(--tp); }
+#tp-cond { font-size: clamp(18px, 4.8vw, 26px); opacity: .95; }
+#tp-next { font-size: clamp(18px, 4.8vw, 26px); color: #ffe066; margin-top: 4px; }
+#tp-count { font-size: clamp(17px, 4.4vw, 24px); opacity: .9; }
+#btn-trophy-ok { position: relative; max-width: 360px; }
+
+/* 등급별 트로피 움직임 */
+.tier-bronze #tp-cup { animation: tp-bounce .9s cubic-bezier(.3, 1.6, .5, 1) .2s both; }
+.tier-silver #tp-cup { animation: tp-flip 1.2s ease-out .2s both; }
+.tier-gold #tp-cup { animation: tp-rise 1.2s cubic-bezier(.2, 1.4, .4, 1) .1s both, tp-sway 2.4s ease-in-out 1.3s infinite alternate; }
+.tier-platinum #tp-cup { animation: tp-grow 1s ease-out both, tp-float 2.2s ease-in-out 1s infinite alternate; }
+.tier-diamond #tp-cup { animation: tp-grow .9s ease-out both, tp-twinkle-cup 1.1s ease-in-out .9s infinite alternate; }
+.tier-ruby #tp-cup { animation: tp-rise 1s ease-out both, tp-fire 1s ease-in-out 1s infinite alternate; }
+.tier-sapphire #tp-cup { animation: tp-grow .9s ease-out both, tp-wave 2s ease-in-out .9s infinite alternate; }
+.tier-emerald #tp-cup { animation: tp-grow 1.1s cubic-bezier(.2, 1.5, .4, 1) both, tp-sway 2.6s ease-in-out 1.1s infinite alternate; }
+.tier-legend #tp-cup { animation: tp-slam .8s cubic-bezier(.5, 0, .9, .6) both, tp-shake .45s ease-in-out .8s 2, tp-twinkle-cup 1s ease-in-out 1.7s infinite alternate; }
+.tier-master #tp-cup { animation: tp-grow 1s ease-out both, tp-glow 1.2s ease-in-out 1s infinite alternate; }
+.grand #tp-cup { width: min(62vw, 310px, 38vh); animation: tp-slam .9s cubic-bezier(.5, 0, .9, .6) both, tp-shake .5s ease-in-out .9s 3, tp-glow 1s ease-in-out 2s infinite alternate; }
+.grand #tp-name { color: #ffd23f; text-shadow: 0 5px 0 #000, 0 0 26px #ffd23f; animation: pulse .6s infinite alternate; }
+.grand #tp-kicker { animation: pulse .5s infinite alternate; }
+@keyframes tp-bounce { 0% { transform: translateY(-120px) scale(.4); opacity: 0; } 60% { transform: translateY(8px) scale(1.08); opacity: 1; } 100% { transform: none; } }
+@keyframes tp-flip { 0% { transform: rotateY(-360deg) scale(.3); opacity: 0; } 100% { transform: none; opacity: 1; } }
+@keyframes tp-rise { 0% { transform: translateY(140px) scale(.5); opacity: 0; } 100% { transform: none; opacity: 1; } }
+@keyframes tp-sway { from { transform: rotate(-4deg); } to { transform: rotate(4deg) scale(1.03); } }
+@keyframes tp-grow { 0% { transform: scale(0) rotate(-120deg); opacity: 0; } 100% { transform: none; opacity: 1; } }
+@keyframes tp-float { from { transform: translateY(-8px); } to { transform: translateY(8px); } }
+@keyframes tp-twinkle-cup { from { filter: drop-shadow(0 8px 0 #0005) drop-shadow(0 0 10px var(--tp)) brightness(1); } to { filter: drop-shadow(0 8px 0 #0005) drop-shadow(0 0 34px #fff) brightness(1.4); } }
+@keyframes tp-fire { from { filter: drop-shadow(0 8px 0 #0005) drop-shadow(0 0 14px #ff5a72) hue-rotate(0deg); } to { filter: drop-shadow(0 8px 0 #0005) drop-shadow(0 0 40px #ff9a3c) hue-rotate(-18deg); transform: scale(1.05); } }
+@keyframes tp-wave { from { transform: translateX(-10px) rotate(-3deg); } to { transform: translateX(10px) rotate(3deg); } }
+@keyframes tp-slam { 0% { transform: translateY(-110vh) scale(1.6); opacity: 1; } 100% { transform: none; } }
+@keyframes tp-shake { 0%, 100% { transform: translate(0, 0); } 25% { transform: translate(-8px, 4px); } 75% { transform: translate(8px, -4px); } }
+@keyframes tp-glow { from { transform: scale(1); filter: drop-shadow(0 8px 0 #0005) drop-shadow(0 0 20px #ffd23f); } to { transform: scale(1.07); filter: drop-shadow(0 8px 0 #0005) drop-shadow(0 0 60px #fff3a0); } }
+
+/* 등급별 배경 효과 조각들 */
+#tp-fx b { position: absolute; top: -40px; font-weight: 400; }
+.tp-twinkle { top: auto !important; animation: twinkle 1.4s ease-in-out infinite; }
+#tp-fx .tp-twinkle:nth-child(odd) { top: 12% !important; } #tp-fx .tp-twinkle:nth-child(3n) { top: 70% !important; } #tp-fx .tp-twinkle:nth-child(3n+1) { top: 38% !important; } #tp-fx .tp-twinkle:nth-child(5n) { top: 86% !important; }
+@keyframes twinkle { 0%, 100% { opacity: 0; transform: scale(.3) rotate(0); } 50% { opacity: 1; transform: scale(1.3) rotate(90deg); } }
+.tp-ember { top: auto !important; bottom: -30px; animation: ember 3s ease-in infinite; }
+@keyframes ember { from { transform: translateY(0) scale(1); opacity: 1; } to { transform: translateY(-110vh) scale(.2); opacity: 0; } }
+.tp-bubble { top: auto !important; bottom: -30px; animation: ember 3.6s ease-in infinite; }
+.tp-fall { animation: confetti 3.4s linear infinite; }
+.tp-ring { position: absolute; left: 50%; top: 40%; width: 20px; height: 20px; margin: -10px; border: 4px solid #a8d6ff; border-radius: 50%; opacity: 0; animation: ring 2.4s ease-out infinite; }
+.tp-ring.r2 { animation-delay: .8s; } .tp-ring.r3 { animation-delay: 1.6s; }
+@keyframes ring { 0% { opacity: .9; transform: scale(1); } 100% { opacity: 0; transform: scale(30); } }
+.tp-flash { position: absolute; inset: 0; background: #fff; opacity: 0; animation: tpflash 2.4s ease-out infinite; }
+@keyframes tpflash { 0%, 100% { opacity: 0; } 4% { opacity: .85; } 10% { opacity: 0; } 14% { opacity: .5; } 22% { opacity: 0; } }

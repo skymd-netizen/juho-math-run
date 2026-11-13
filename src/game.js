@@ -326,13 +326,19 @@ export function createGame(canvas, theme = taekwondoTheme) {
     });
     const result = { ...sum, growth: res.growth };
     ui.renderGrowth(res.growth);
+    // 승급 축하 → (새 트로피가 있으면) 트로피 팝업 → 결과 화면 순서로 보여 준다
+    const toResult = () => { S.locked = false; ui.showResult(result); };
+    const afterPromo = () => {
+      S.promo = null;
+      if (res.trophy) { S.locked = true; ui.showTrophyPop(res.trophy, toResult); } else toResult();
+    };
     if (res.promoted) {
       // 승급! 캐릭터가 기합을 넣고, 잠시 뒤 도복의 띠가 새 색으로 바뀐다
       S.promo = res.promoted; S.promoSwap = 0.9; S.promoFx = 0;
       sfx.promote();
-      ui.showPromo(res.promoted, res.growth, () => { S.promo = null; ui.showResult(result); });
+      ui.showPromo(res.promoted, res.growth, afterPromo);
     } else {
-      ui.showResult(result);
+      afterPromo();
     }
   }
 
