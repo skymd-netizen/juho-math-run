@@ -5,6 +5,8 @@ export const DIFFICULTIES = {
   easy:   { key: 'easy',   label: 'EASY',   cols: 2, rows: 2, stars: 1, coins: 10, speedSec: 60,  color: '#4cc96b' },
   normal: { key: 'normal', label: 'NORMAL', cols: 3, rows: 3, stars: 2, coins: 20, speedSec: 150, color: '#ffa726' },
   hard:   { key: 'hard',   label: 'HARD',   cols: 4, rows: 4, stars: 3, coins: 30, speedSec: 300, color: '#ef5350' },
+  expert: { key: 'expert', label: 'EXPERT', cols: 5, rows: 5, stars: 4, coins: 40, speedSec: 480, color: '#ab47bc' },
+  master: { key: 'master', label: 'MASTER', cols: 6, rows: 6, stars: 5, coins: 50, speedSec: 720, color: '#3949ab' },
 };
 
 function mulberry32(a) {

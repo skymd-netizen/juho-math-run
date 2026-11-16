@@ -442,7 +442,7 @@ function fillResult(g, rw) {
   $('#showcase').classList.add('hidden'); $('#showcase').classList.remove('go'); $$('.confetti').forEach((e) => e.remove());
   const rec = rw.rec, lv = g.lv;
   drawPreviewTo($('#result-photo'), g.src, 900);
-  $('#result-stars').innerHTML = [1, 2, 3].map((i) => `<span class="${i <= lv.stars ? '' : 'off'}">⭐</span>`).join('');
+  $('#result-stars').innerHTML = [1, 2, 3, 4, 5].map((i) => `<span class="${i <= lv.stars ? '' : 'off'}">⭐</span>`).join('');
   $('#result-stats').innerHTML = `<li>난이도 <b>${lv.label}</b> (${lv.cols}×${lv.rows})</li><li>⏱ <b>${fmtTime(rec.time)}</b></li>
     <li>👆 이동 <b>${rec.moves}</b>번</li><li>💡 힌트 <b>${rec.hints}</b>번</li><li>⭐ 별 <b>${rec.stars}</b>개</li><li>🪙 코인 <b>+${rw.coins}</b></li>`;
   $('#result-bonus').innerHTML = rw.bonus.map((b) => `<li>${b}</li>`).join('');
