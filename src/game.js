@@ -422,7 +422,7 @@ export function createGame(canvas, theme = taekwondoTheme) {
 
     // 승급 연출: 띠가 바뀌는 순간과 폭죽
     if (S.promo) {
-      const black = S.promo.id === 'black';
+      const black = S.promo.id === 'black' || !!S.promo.grand; // 최종 승급은 더 화려하게
       if (S.promoSwap > 0) {
         S.promoSwap -= dt;
         if (S.promoSwap <= 0) {

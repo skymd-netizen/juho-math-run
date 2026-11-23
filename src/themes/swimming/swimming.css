@@ -1,0 +1,29 @@
+/* 수영왕 에디션 화면 꾸미기 (공통 style.css 위에 덧입힌다) */
+.swimming .card { background: linear-gradient(#35c3ea, #1d78c9); box-shadow: 0 10px 0 #0f4f8f, 0 20px 40px #0006; }
+.swimming .card h1, .swimming .card h2 { text-shadow: 0 4px 0 #0f4f8f; }
+.swimming .card h1 span { color: #fff3a0; }
+.swimming .card h2 { white-space: normal; }
+.swimming .big.alt { background: linear-gradient(#e0f7ff, #a5dcf5); color: #0e4d78; box-shadow: 0 6px 0 #5aa6c8; }
+.swimming .pickbtn.last { outline-color: #fff3a0; }
+.swimming #level { background: #0e6aa8; }
+.swimming .growth { background: rgba(8, 50, 100, .5); }
+.swimming .g-bar div { background: linear-gradient(90deg, #7affd9, #3fd0ff); }
+.swimming .g-row b, .swimming .g-next b, .swimming .pill b { color: #fff3a0; }
+.swimming #screen-pause, .swimming #screen-result, .swimming #screen-start { background: rgba(8, 40, 100, .5); }
+.swimming #result-wrongs { background: rgba(8, 50, 100, .5); }
+.swimming #result-wrongs summary, .swimming #result-table td:last-child { color: #fff3a0; }
+.swimming .face { height: 2.3em; margin-right: .1em; filter: drop-shadow(0 3px 0 #0f4f8f); }
+
+/* 수영모 색 표시 (태권도의 띠 표시와 같은 자리) */
+.cap { display: inline-block; width: 1.15em; height: .78em; border-radius: 1em 1em .3em .3em; border: 2px solid #fff; vertical-align: middle; margin-right: .3em; background: #f4f6fb; box-shadow: 0 2px 0 #0004; }
+.c-white { background: #f4f6fb; } .c-yellow { background: #ffd400; } .c-green { background: #2e9e44; } .c-blue { background: #1c6fd6; }
+.c-red { background: #e0312f; } .c-purple { background: #8a4fd6; } .c-gold { background: linear-gradient(#fff0a0, #ffb300); }
+body.swimming #promo-belt.cap.big { display: block; width: min(46vw, 190px); height: clamp(48px, 12vw, 80px); margin: 10px auto; border-width: 5px; border-radius: 1.4em 1.4em .5em .5em;
+  box-shadow: 0 6px 0 #0005, 0 0 30px #fff8; animation: belt-shine 1.2s ease-in-out infinite alternate; }
+.swimming #screen-promo { background: radial-gradient(ellipse at 50% 62%, rgba(8, 40, 100, .3) 0 28%, rgba(8, 40, 100, .85) 75%); }
+.swimming #screen-promo.black { background: radial-gradient(ellipse at 50% 62%, rgba(255, 210, 63, .14) 0 26%, rgba(8, 20, 70, .9) 75%); }
+.swimming #promo-msg, .swimming #promo-title { text-shadow: 0 0 6px #0a3a66, 0 2px 0 #0a3a66; }
+
+/* 시작 화면 맨 아래 버전 바꾸기 링크 */
+.theme-links { margin-top: 10px; }
+.theme-links .theme-link { margin-top: 6px; }
