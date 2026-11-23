@@ -52,6 +52,7 @@
         <button class="big pickbtn t-sub" data-topic="sub"><span class="ico">➖</span>빼기 마스터</button>
         <button class="big pickbtn t-mul" data-topic="mul"><span class="ico">✖️</span>구구단 마스터</button>
         <button class="big pickbtn t-mix" data-topic="mix"><span class="ico">👑</span>수학 마스터<small>더하기 · 빼기 · 구구단</small></button>
+        <button class="big alt oceanbtn" data-open-ocean>🌊 수영 도감 <small>바다 친구 · 수영 기술 · 보물</small></button>
       </div>
       <div id="step-pace" class="hidden">
         <p class="pick">② <span id="picked-topic"></span> · 속도를 골라요!</p>
@@ -63,6 +64,7 @@
       <div class="theme-links">
         <a class="theme-link" href="./index.html">🥋 태권도 버전으로 가기</a>
         <a class="theme-link" href="./fishing.html">🎣 우진이의 낚시왕 에디션으로 가기</a>
+        <a class="theme-link" href="./games.html">🎮 게임 선택 (바다 도감 포함)</a>
       </div>
     </div>
   </div>
@@ -86,6 +88,7 @@
       <details id="result-wrongs" class="hidden"></details>
       <button id="btn-retry" class="big">다시 달리기</button>
       <button id="btn-levels" class="big alt">다른 단계 고르기</button>
+      <button class="big alt oceanbtn" data-open-ocean>🌊 수영 도감 보기</button>
     </div>
   </div>
 
@@ -99,6 +102,10 @@
       <div id="promo-title"></div>
     </div>
     <button id="btn-promo" class="big">확인</button>
+  </div>
+
+  <div id="ocean-embed" class="hidden" role="dialog" aria-label="수영 도감">
+    <iframe id="ocean-frame" title="수영 도감 (HYUNWOO'S OCEAN WORLD)"></iframe>
   </div>
 
   <script type="module" src="/src/swimming-main.js"></script>

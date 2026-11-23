@@ -28,4 +28,22 @@ export const swimmingTheme = {
   makeHurdle,
   /** 급수를 캐릭터(셔츠 색)와 화면(HUD·성장 칸)에 반영한다 */
   syncGrowth(g, player) { player.setBelt(g.rank.id); swimUi.renderGrowth(g); },
+
+  /**
+   * 수영 도감(HYUNWOO'S OCEAN WORLD)을 이 게임 안에서 연다. 도감은 같은 사이트의 ocean.html을 화면 안 창으로 보여 주며,
+   * 기록은 수학 게임과 따로(juho-ocean-save) 저장된다. 도감 쪽 "게임으로 돌아가기"가 닫기 신호를 보낸다.
+   */
+  init() {
+    const box = document.getElementById('ocean-embed');
+    const frame = document.getElementById('ocean-frame');
+    if (!box || !frame) return;
+    const open = () => {
+      if (!frame.getAttribute('src')) frame.setAttribute('src', './ocean.html?embed=1#home');
+      box.classList.remove('hidden');
+    };
+    const close = () => box.classList.add('hidden');
+    document.querySelectorAll('[data-open-ocean]').forEach((b) => b.addEventListener('click', open));
+    window.addEventListener('message', (e) => { if (e.origin === location.origin && e.data?.type === 'ocean-close') close(); });
+    window.addEventListener('keydown', (e) => { if (e.code === 'Escape' && !box.classList.contains('hidden')) close(); });
+  },
 };

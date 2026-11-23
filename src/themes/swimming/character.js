@@ -15,8 +15,8 @@ import waterUrl from './assets/water.svg';
 
 export const RANK_COLORS = { white: 0xf4f6fb, yellow: 0xffd400, green: 0x35b55a, blue: 0x2f86e6, red: 0xe8403d, purple: 0x9a5cf0, gold: 0xffc21a };
 
-const HEAD_ASPECT = 118 / 132;   // 오려 낸 머리 조각의 가로/세로 비율
-const HEAD_H = 1.15;             // 머리(목 윗부분 포함) 높이 (단위: 월드)
+const HEAD_ASPECT = 337 / 420;   // 오려 낸 머리 조각의 가로/세로 비율
+const HEAD_H = 1.1;             // 머리(목 윗부분 포함) 높이 (단위: 월드)
 const HEAD_W = HEAD_H * HEAD_ASPECT;
 const SHOULDER = { x: 0.5, y: 0.93 };
 const UPPER = 0.42, LOWER = 0.5; // 위팔·아래팔 길이
